@@ -1,0 +1,667 @@
+Source: http://www.LaTeXTemplates.com
+
+
+% Beamer Presentation
+
+% LaTeX Template
+
+% Version 1.0 (10/11/12)
+
+%
+
+% This template has been downloaded from:
+
+% http://www.LaTeXTemplates.com
+
+%
+
+% License:
+
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+
+% 
+
+%--------------------------------------------------------------------------------
+
+% PACKAGES AND THEMES
+
+%--------------------------------------------------------------------------------
+
+\documentclass{beamer}
+
+\mode<presentation> {
+
+% The Beamer class comes with a number of default slide themes
+
+% which change the colors and layouts of slides. Below this is a list
+
+% of all the themes, uncomment each in turn to see what they look like.
+
+%\usetheme{default}
+
+%\usetheme{AnnArbor}
+
+%\usetheme{Antibes}
+
+%\usetheme{Bergen}
+
+%\usetheme{Berkeley}
+
+%\usetheme{Berlin}
+
+%\usetheme{Boadilla}
+
+\usetheme{CambridgeUS}
+
+%\usetheme{Copenhagen}
+
+%\usetheme{Darmstadt}\[  \]
+
+%\usetheme{Dresden}
+
+%\usetheme{Frankfurt}
+
+%\usetheme{Goettingen}
+
+%\usetheme{Hannover}
+
+%\usetheme{Ilmenau}
+
+%\usetheme{JuanLesPins}
+
+%\usetheme{Luebeck}
+
+%\usetheme{Madrid}
+
+%\usetheme{Malmoe}
+
+%\usetheme{Marburg}
+
+%\usetheme{Montpellier}
+
+%\usetheme{PaloAlto}
+
+%\usetheme{Pittsburgh}
+
+%\usetheme{Rochester}
+
+%\usetheme{Singapore}
+
+%\usetheme{Szeged}
+
+%\usetheme{Warsaw}
+
+% As well as themes, the Beamer class has a number of color themes
+
+% for any slide theme. Uncomment each of these in turn to see how it
+
+% changes the colors of your current slide theme.
+
+%\usecolortheme{albatross}
+
+%\usecolortheme{beaver}
+
+%\usecolortheme{beetle}
+
+%\usecolortheme{crane}
+
+%\usecolortheme{dolphin}
+
+%\usecolortheme{dove}
+
+%\usecolortheme{fly}
+
+%\usecolortheme{lily}
+
+%\usecolortheme{orchid}
+
+%\usecolortheme{rose}
+
+%\usecolortheme{seagull}
+
+%\usecolortheme{seahorse}
+
+%\usecolortheme{whale}
+
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+
+}
+
+\usepackage{graphicx} % Allows including images
+
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+
+\usepackage{amssymb}
+
+\usepackage{amsmath}
+
+%----------------------------------------------------------------------------------------
+
+% TITLE PAGE
+
+%----------------------------------------------------------------------------------------
+
+\title[TIMBER]{TIMBER: Time borrowing and error relaying for online timing error resilience} % The short title appears at the bottom of every slide, the full title is only on the title page
+
+\author[Choudhury,Chandra,Mohanram,Aitken]{Mihir Choudhury, kartik Mohanram (Rice University), Vikas Chandra, Robert Aitken (ARM)} % Your name
+
+\institute[]{VINEESH V S (EE, IITB)} % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
+
+%{
+
+%University of California \\ % Your institution for the title page
+
+%\medskip
+
+%\textit{john@smith.com} % Your email address
+
+%}
+
+\date{\today} % Date, can be changed to a custom date
+
+\begin{document}
+
+\begin{frame}
+
+\titlepage % Print the title page as the first slide
+
+\end{frame}
+
+%\begin{frame}
+
+%\frametitle{Overview} % Table of contents slide, comment this block out to remove it
+
+%\tableofcontents % Throughout your presentation, if you choose to use \section{} and \subsection{} commands, these will automatically be printed on this slide as an overview of your presentation
+
+%\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+% PRESENTATION SLIDES
+
+%----------------------------------------------------------------------------------------
+
+%------------------------------------------------
+
+%\section{Abstract} % Sections can be created in order to organize your presentation into discrete blocks, all sections and subsections are automatically printed in the table of contents as an overview of the talk
+
+%------------------------------------------------
+
+%\subsection{Subsection Example} % A subsection can be created just before a set of slides with a common theme to further break down your presentation into chunks
+
+%\begin{frame}
+
+%\frametitle{Abstract}
+
+%\begin{itemize}
+
+%\item New correction method without using error models
+
+%\item Instead, use lookup table implementation of correcting functions
+
+%\item Correction function is optimized
+
+%\item -reducing look-up table size
+
+%\end{itemize}
+
+%\end{frame}
+
+%------------------------------------------------
+
+\section{Overview}
+
+\begin{frame}
+
+\frametitle{Overview}
+
+\begin{itemize}
+
+\item How to recover timing errors?
+
+\item Why TIMBER?
+
+\item Overview
+
+\item TIMBER: Circuit design
+
+\item Comments
+
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\section{How to recover timing errors?}
+
+\begin{frame}
+
+\frametitle{How to recover timing errors?}
+
+\begin{itemize}
+
+\item Correct value of data delayed (due to errors in critical path (longest paths))
+
+\item Recover by
+
+\begin{itemize}
+
+\item Error detection 
+
+\item Error prediction
+
+\item Error masking 
+
+\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+
+\frametitle{How to recover timing errors?}
+
+\begin{itemize}
+
+\item Error detection
+
+\begin{itemize}
+
+\item Error detected after the state of the system is corrupted
+
+\item Roll-back required
+
+\end{itemize}
+
+\item Error prediction
+
+\begin{itemize}
+
+\item Error prediction guard band required before clock edge
+
+\item Timing margin cannot be recovered
+
+\end{itemize}
+
+\item Error masking
+
+\begin{itemize}
+
+\item System state is correct
+
+\item Timing margin is recovered
+
+\item TIMBER follow this method
+
+\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\section{Error masking}
+
+\begin{frame}
+
+\frametitle{Error masking}
+
+\begin{figure}
+
+\includegraphics[width=90mm]{timing_error.jpg}
+
+\caption{Error masking}
+
+\label{figure0}
+
+\end{figure}
+
+\begin{itemize}
+
+\item Sample after $\delta$ interval
+
+\item Compensate for $\delta$ in next pipeline stage$^{1}$
+
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\section{TIMBER: Motivation}
+
+\begin{frame}
+
+\frametitle{TIMBER: Motivation}
+
+\begin{itemize}
+
+\item Only a small fraction of FF serve both as start and end points of critical paths
+
+\item Most of the timing errors span single pipelines stage only
+
+\item Can be masked by borrowing time from next stage
+
+%\item Temporary reduction in CK frequency for multi-stage timing error
+
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\section{TIMBER: Overview}
+
+\begin{frame}
+
+\frametitle{TIMBER: Overview}
+
+\begin{itemize}
+
+\item Detect timing error after the clock edge
+
+\item Mask it by borrowing time from next pipeline
+
+\item Recovered timing margin: Timing margin we expect to recover using TIMBER
+
+\item Worst case timing violation =  Recovered timing margin (for single stage pipeline)
+
+%\item In general $c=k \times t$ ($c$: checking period, $k$: number of stages, $t$: duration of each interval in checking period)
+
+\end{itemize}
+
+\end{frame}
+
+%--------------------------------------------------
+
+\begin{frame}
+
+\begin{figure}
+
+\includegraphics[width=90mm]{error_masking.jpg}
+
+\caption{TIMBER-based error detection and error masking$^{2}$}
+
+\label{figure1}
+
+\end{figure}
+
+\end{frame}
+
+%-------------------------------------------------------------------
+
+\begin{frame}
+
+\begin{itemize}
+
+\item Figure has one TB interval and two ED intervals
+
+\item Single stage timing error is masked and not flagged to central error control unit
+
+\item Two stage timing errors: Masked (TB+ED), flagged
+
+%\item Second ED: Ensure all timing errors are masked for $(k_{ED}-1)$ clocks after flagging first timing error*
+
+\end{itemize}
+
+\end{frame}
+
+%-------------------------------------------------------------------
+
+\section{TIMBER: Circuit design}
+
+\begin{frame}
+
+\frametitle{TIMBER: Circuit design}
+
+\begin{itemize}
+
+\item 2 sequential elements
+
+\begin{itemize}
+
+\item TIMBER flip - flop
+
+\item TIMBER latch
+
+\end{itemize} 
+
+\end{itemize}
+
+\end{frame}
+
+%-------------------------------------------------------------------
+
+\section{TIMBER flip - flop}
+
+\begin{frame}
+
+\frametitle{TIMBER flip - flop}
+
+\begin{figure}
+
+\includegraphics[width=55mm]{timber_flip_flop.jpg}
+
+\caption{TIMBER flip-flop (a) design and (b) clock control}
+
+\label{figure2}
+
+\end{figure}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+
+\frametitle{TIMBER flip - flop: Design}
+
+\begin{itemize}
+
+\item EN = 0: Master - slave FF
+
+\item EN = 1: Time borrowing mode
+
+\item Three intervals in checking period (using $S_{1}S_{0}$)
+
+\item Timing error: $M0$ and $M1$ sample different values
+
+\item M1 masks timing error after a delay $\delta$
+
+\item Multi-stage timing errors: error relay logic
+
+\end{itemize}
+
+\end{frame}
+
+%-------------------------------------------------------------------
+
+\begin{frame}
+
+\frametitle{TIMBER flip - flop: Error relay logic}
+
+\begin{figure}
+
+\includegraphics[width=70mm]{timber_error_relay.jpg}
+
+\caption{TIMBER flip-flop error relay logic}
+
+\label{figure3}
+
+\begin{itemize}
+
+\item Select input: Max. overall select outputs from FFs at the fanin cone
+
+\item Max. delay of half clock
+
+\end{itemize}
+
+\end{figure}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+
+\frametitle{TIMBER flip - flop: 2 stage timing error}
+
+\begin{figure}
+
+\includegraphics[width=45mm]{timber_ff_spice_wave.jpg}
+
+\caption{Two-stage timing error in a TIMBER flip-flop design$^{3}$}
+
+\label{figure4}
+
+\end{figure}
+
+\begin{itemize}
+
+\item First timing error in $f_{1}$ masked by borrowing TB
+
+\item Error relay logic set $S_{1}S_{0}$ = 01
+
+\item On 2- stage timing error at $f_{2}$, error is masked (borrow TB + ED) ($Err_{2}$=1)
+
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\section{TIMBER latch}
+
+\begin{frame}
+
+\frametitle{TIMBER latch: Design}
+
+\begin{figure}
+
+\includegraphics[width=55mm]{timber_latch.jpg}
+
+\caption{TIMBER latch (a) design and (b) clock control}
+
+\label{figure5}
+
+\end{figure}
+
+\end{frame} 
+
+%------------------------------------------------
+
+\begin{frame}
+
+\frametitle{TIMBER latch: Design}
+
+\begin{itemize}
+
+\item EN = 0: Master - slave FF
+
+\item EN = 1: Time borrowing mode
+
+\item F = 1: Master and slave independent
+
+\item Slave latch transparent during checking period
+
+\item Single stage timing error is masked (master and slave transparent during TB)
+
+\end{itemize}
+
+\end{frame}
+
+%-------------------------------------------------------------------
+
+\begin{frame}
+
+\frametitle{TIMBER latch: 2 stage timing error}
+
+\begin{figure}
+
+\includegraphics[width=50mm]{timber_latch_spice_wave.jpg}
+
+\caption{Two-stage timing error in a TIMBER latch design}
+
+\label{figure6}
+
+\end{figure}
+
+\begin{itemize}
+
+\item First timing error masked
+
+\item Two stage timing error occurs at $l_{2}$
+
+\item Error masked (TB + ED borrowed) ($Err_{2}$ = 1)
+
+\end{itemize}
+
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+
+\section{Comments}
+
+\frametitle{Comments}
+
+\begin{itemize}
+
+\item Timber FF is better
+
+\begin{itemize}
+
+\item In latch, always we consume TB 
+
+\item Checking period is always TB + ED = half clock cycle
+
+\item In FF it can be less than half clock
+
+\end{itemize}
+
+\end{itemize}
+
+\end{frame}
+
+%-------------------------------------------------------------------
+
+\section{References}
+
+\begin{frame}
+
+\frametitle{References}
+
+\begin{thebibliography}{1} % 100 is a random guess of the total number of %references
+
+\bibitem{mihir2012} Choudhury, M.; Chandra, V.; Mohanram, K.; Aitken, R., "TIMBER: Time borrowing and error relaying for online timing error resilience," \emph{Design, Automation and Test in Europe Conference and Exhibition (DATE), 2010},vol., no., pp.1554,1559, 8-12 March 2010.
+
+\\doi: 10.1109/DATE.2010.5457058
+
+\end{thebibliography}
+
+\end{frame}
+
+%------------------------------------------------------------
+
+\begin{frame}
+
+\Huge{\centerline{Thank you}}
+
+\end{frame}
+
+%----------------------------------------------------------------------------------------
+
+\end{document} 
+
